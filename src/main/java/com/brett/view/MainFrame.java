@@ -25,6 +25,7 @@ public class MainFrame extends JFrame implements ComponentListener {
         add(paintPanel, BorderLayout.CENTER);
 
         //add componenet listner to paintPanel
+        //https://docs.oracle.com/javase/tutorial/uiswing/events/componentlistener.html
         paintPanel.addComponentListener(this);
 
         //standard
