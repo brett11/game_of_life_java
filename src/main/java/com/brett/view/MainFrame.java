@@ -1,5 +1,7 @@
 package com.brett.view;
 
+import com.brett.controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
@@ -9,6 +11,7 @@ public class MainFrame extends JFrame implements ComponentListener {
     private Toolbar toolbar;
     private FormPanel formPanel;
     private PaintPanel paintPanel;
+    private Controller controller;
 
     public MainFrame(String title){
         super(title);
@@ -19,6 +22,8 @@ public class MainFrame extends JFrame implements ComponentListener {
         formPanel = new FormPanel();
         paintPanel = new PaintPanel();
 
+        controller = new Controller();
+
         //add subcomponents
         add(toolbar, BorderLayout.NORTH);
         add(formPanel, BorderLayout.WEST);
@@ -27,6 +32,13 @@ public class MainFrame extends JFrame implements ComponentListener {
         //add componenet listner to paintPanel
         //https://docs.oracle.com/javase/tutorial/uiswing/events/componentlistener.html
         paintPanel.addComponentListener(this);
+
+        formPanel.setFormListener(new FormListener() {
+            public void formEventOccured(String s) {
+                controller.setGrid(s);
+                paintPanel.repaint();
+            }
+        });
 
         //standard
         setMinimumSize(new Dimension(500, 400));

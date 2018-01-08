@@ -2,6 +2,8 @@ package com.brett.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class FormPanel extends JPanel {
     private JLabel patternLabel;
@@ -9,6 +11,7 @@ public class FormPanel extends JPanel {
     private JRadioButton blinkerRadio;
     private ButtonGroup patternGroup;
     private JButton okBtn;
+    private FormListener formListener;
 
     public FormPanel() {
         Dimension dim = getPreferredSize();
@@ -28,6 +31,21 @@ public class FormPanel extends JPanel {
         patternGroup.add(blinkerRadio);
 
         layoutComponents();
+
+        okBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String pattern = patternGroup.getSelection().getActionCommand();
+
+                if (formListener != null) {
+                    formListener.formEventOccured(pattern);
+                }
+            }
+        });
+    }
+
+    public void setFormListener(FormListener listener) {
+        this.formListener = listener;
     }
 
     private void layoutComponents() {

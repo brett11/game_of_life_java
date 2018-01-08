@@ -4,9 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PaintPanel extends JPanel {
+    private Integer[][] cells;
+    private int rows = 10;
+    private int cols = 10;
     private Dimension currentDimension;
-    private static int NUMBER_OF_ROWS = 10;
-    private static int NUMBER_OF_COLS = 10;
 
     public PaintPanel() {
         setBorder(BorderFactory.createLineBorder(Color.BLUE));
@@ -28,16 +29,20 @@ public class PaintPanel extends JPanel {
     }
 
     private void drawRowLines(Graphics graphics) {
-        for (int rowIndex = 1; rowIndex < NUMBER_OF_ROWS; rowIndex++) {
-            int y = currentDimension.height/NUMBER_OF_ROWS * rowIndex;
+        for (int rowIndex = 1; rowIndex < rows; rowIndex++) {
+            int y = currentDimension.height/rows * rowIndex;
             graphics.drawLine(0, y, currentDimension.width, y);
         }
     }
 
     private void drawColLines(Graphics graphics) {
-        for (int colIndex = 1; colIndex < NUMBER_OF_COLS; colIndex++) {
-            int x = currentDimension.width/NUMBER_OF_COLS * colIndex;
+        for (int colIndex = 1; colIndex < cols; colIndex++) {
+            int x = currentDimension.width/cols * colIndex;
             graphics.drawLine(x, 0, x, currentDimension.height);
         }
+    }
+
+    public void setCells(Integer[][] cells) {
+        this.cells = cells;
     }
 }

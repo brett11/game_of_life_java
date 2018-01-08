@@ -16,17 +16,17 @@ public class GridTest {
     public void create() {
         grid = new Grid();
 
-        blinker1Grid = new Grid(GridExamples.BLINKER_1);
+        blinker1Grid = new Grid(GridExamples.BLINKER_1_CELLS);
     }
 
     @Test
     public void initializesCellArray() {
-        assertThat(grid.getCells(), equalTo(GridExamples.DEFAULT_GRID));
+        assertThat(grid.getCells(), equalTo(GridExamples.DEFAULT_GRID_CELLS));
     }
 
     @Test
     public void flipCellsTest() {
-        assertThat(blinker1Grid.getCells(), equalTo(GridExamples.BLINKER_1));
+        assertThat(blinker1Grid.getCells(), equalTo(GridExamples.BLINKER_1_CELLS));
     }
 
     @Test
@@ -89,12 +89,12 @@ public class GridTest {
     public void generationTest(){
         blinker1Grid.generation();
 
-        Grid blinker2Grid = new Grid(GridExamples.BLINKER_2);
+        Grid blinker2Grid = new Grid(GridExamples.BLINKER_2_CELLS);
         assertThat(blinker1Grid.getCells(), equalTo(blinker2Grid.getCells()));
 
         blinker1Grid.generation();
 
-        Grid blinker3Grid = new Grid(GridExamples.BLINKER_3);
+        Grid blinker3Grid = new Grid(GridExamples.BLINKER_3_CELLS);
         assertThat(blinker1Grid.getCells(), equalTo(blinker3Grid.getCells()));
     }
 }
