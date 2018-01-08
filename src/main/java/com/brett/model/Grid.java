@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import static org.apache.commons.lang3.ArrayUtils.toArray;
 
 public class Grid {
-    private int[][] cells;
+    private Integer[][] cells;
 
     private int rows;
     private int cols;
@@ -21,25 +21,29 @@ public class Grid {
     private static final int NUMBER_OF_COLS = 10;
 
     public Grid() {
-        this(NUMBER_OF_ROWS, NUMBER_OF_COLS, new int[][]{{}});
+        this(NUMBER_OF_ROWS, NUMBER_OF_COLS, new Integer[][]{{}});
     }
 
-    public Grid(int [][] cells){
+    public Grid(Integer [][] cells){
         this(cells.length, cells[0].length, cells);
     }
 
-    public Grid(int rows, int cols, int [][] cells) {
+    public Grid(int rows, int cols, Integer [][] cells) {
         this.rows = rows;
         this.cols = cols;
         if (multiDimArrayEmpty(cells)) {
             this.cells = createEmptyCells(rows, cols);
         } else {
-            this.cells = cells;
+            Integer[][] newArr = new Integer[cells.length][cells[0].length];
+            for(int i=0; i<cells.length; i++)
+                for(int j=0; j<cells[i].length; j++)
+                    newArr[i][j]=cells[i][j];
+            this.cells = newArr;
         }
     }
 
-    public int[][] createEmptyCells(int rows, int cols) {
-        int[][] zeroArray = new int[rows][cols];
+    public Integer[][] createEmptyCells(int rows, int cols) {
+        Integer[][] zeroArray = new Integer[rows][cols];
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
                 zeroArray[r][c] = 0;
@@ -53,22 +57,22 @@ public class Grid {
         cells[row][col] = flip(origValue);
     }
 
-    public void flipCells(int[][] positions) {
+    public void flipCells(Integer[][] positions) {
         if (multiDimArrayEmpty(positions)) {
             return;
         }
-        for (int[] position : positions) {
+        for (Integer[] position : positions) {
             int row = position[0];
             int col = position[1];
             flipCell(row, col);
         }
     }
 
-    private boolean multiDimArrayEmpty(int[][] multiArray) {
+    private boolean multiDimArrayEmpty(Integer[][] multiArray) {
         return (multiArray == null || multiArray.length == 0 || multiArray[0].length == 0);
     }
 
-    public int[][] getCells() {
+    public Integer[][] getCells() {
         return cells;
     }
 

@@ -1,22 +1,19 @@
 package com.brett.model;
 
 import com.brett.model.Grid;
-// junit book (Jeff Lang) pg 10
 import static com.brett.model.GridExamples.*;
+// junit book (Jeff Lang) pg 10
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.*;
-
-import java.util.ArrayList;
-
 
 public class GridTest {
     private Grid grid;
     private Grid blinker1Grid;
 
     @Before
-    public void setUp() {
+    public void create() {
         grid = new Grid();
 
         blinker1Grid = new Grid(GridExamples.BLINKER_1);
@@ -83,12 +80,21 @@ public class GridTest {
     }
 
     @Test
-    public void findCoorsToBeFlipped(){
+    public void findCoorsToBeFlippedTest(){
         Integer[][] expectedResult = new Integer[][]{{1,2},{2,1},{2,3},{3,2}};
-//        expectedResult.add(new Integer[]{1, 2});
-//        expectedResult.add(new Integer[]{2, 1});
-//        expectedResult.add(new Integer[]{2, 3});
-//        expectedResult.add(new Integer[]{3, 2});
         assertThat(blinker1Grid.findCoordsToBeFlipped(), equalTo(expectedResult));
+    }
+
+    @Test
+    public void generationTest(){
+        blinker1Grid.generation();
+
+        Grid blinker2Grid = new Grid(GridExamples.BLINKER_2);
+        assertThat(blinker1Grid.getCells(), equalTo(blinker2Grid.getCells()));
+
+        blinker1Grid.generation();
+
+        Grid blinker3Grid = new Grid(GridExamples.BLINKER_3);
+        assertThat(blinker1Grid.getCells(), equalTo(blinker3Grid.getCells()));
     }
 }

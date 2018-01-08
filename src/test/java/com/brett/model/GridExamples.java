@@ -1,7 +1,7 @@
 package com.brett.model;
 
 public class GridExamples {
-    public static int[][] DEFAULT_GRID = {
+    public static Integer[][] DEFAULT_GRID = {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -14,7 +14,7 @@ public class GridExamples {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
     // grid 2
-    public static int[][] TEST_GRID_1 = {
+    public static Integer[][] TEST_GRID_1 = {
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
@@ -26,7 +26,7 @@ public class GridExamples {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-    public static int[][] BLINKER_1 = {
+    public static Integer[][] BLINKER_1 = {
             {0, 0, 0, 0, 0},
             {0, 0, 1, 0, 0},
             {0, 0, 1, 0, 0},
@@ -34,7 +34,7 @@ public class GridExamples {
             {0, 0, 0, 0, 0}
     };
 
-    public static int[][] BLINKER_2 = {
+    public static Integer[][] BLINKER_2 = {
             {0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0},
             {0, 1, 1, 1, 0},
@@ -42,7 +42,7 @@ public class GridExamples {
             {0, 0, 0, 0, 0}
     };
 
-    public static int[][] BLINKER_3 = {
+    public static Integer[][] BLINKER_3 = {
             {0, 0, 0, 0, 0},
             {0, 0, 1, 0, 0},
             {0, 0, 1, 0, 0},
