@@ -1,13 +1,19 @@
 package com.brett.view;
 
+import com.brett.model.Grid;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class PaintPanel extends JPanel {
-    private Integer[][] cells;
-    private int rows = 10;
-    private int cols = 10;
+public class PaintPanel extends JPanel implements ActionListener {
+    private Grid grid;
+    private int rows;
+    private int cols;
     private Dimension currentDimension;
+    private int rowSize;
+    private int colSize;
 
     public PaintPanel() {
         setBorder(BorderFactory.createLineBorder(Color.BLUE));
@@ -15,6 +21,8 @@ public class PaintPanel extends JPanel {
 
     public void setCurrentDimension(Dimension dimension) {
         this.currentDimension = dimension;
+        this.rowSize = dimension.height / rows;
+        this.colSize = dimension.width / cols;
         System.out.println(this.currentDimension);
     }
 
@@ -26,23 +34,42 @@ public class PaintPanel extends JPanel {
         graphics.setColor(Color.RED);
         drawRowLines(graphics);
         drawColLines(graphics);
+        drawBoxes(graphics);
     }
 
     private void drawRowLines(Graphics graphics) {
         for (int rowIndex = 1; rowIndex < rows; rowIndex++) {
-            int y = currentDimension.height/rows * rowIndex;
+            int y = rowSize * rowIndex;
             graphics.drawLine(0, y, currentDimension.width, y);
         }
     }
 
     private void drawColLines(Graphics graphics) {
         for (int colIndex = 1; colIndex < cols; colIndex++) {
-            int x = currentDimension.width/cols * colIndex;
+            int x = colSize * colIndex;
             graphics.drawLine(x, 0, x, currentDimension.height);
         }
     }
 
-    public void setCells(Integer[][] cells) {
-        this.cells = cells;
+    private void drawBoxes(Graphics graphics){
+        for (int rowIndex = 0; rowIndex <rows; rowIndex++) {
+            for (int colIndex = 0; colIndex <cols; colIndex++) {
+                if (grid.isAlive(rowIndex, colIndex)) {
+                    graphics.fillRect(colIndex * colSize, rowIndex * rowSize, colSize, rowSize);
+                }
+            }
+        }
+    }
+
+    public void setData(Grid grid) {
+        this.grid = grid;
+        this.rows = grid.getRows();
+        this.cols = grid.getCols();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        grid.generation();
+        this.repaint();
     }
 }

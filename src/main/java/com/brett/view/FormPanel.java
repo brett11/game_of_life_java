@@ -26,6 +26,7 @@ public class FormPanel extends JPanel {
 
         //set up pattern radios
         gliderRadio.setActionCommand("Glider");
+        gliderRadio.setSelected(true);
         blinkerRadio.setActionCommand("Blinker");
         patternGroup.add(gliderRadio);
         patternGroup.add(blinkerRadio);

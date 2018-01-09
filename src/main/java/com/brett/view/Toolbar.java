@@ -20,7 +20,22 @@ public class Toolbar extends JPanel implements ActionListener{
 
         add(runButton);
         add(pauseButton);
+
+        runButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toolbarListener.runEventOccured();
+            }
+        });
+
+        pauseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toolbarListener.pauseEventOccured();
+            }
+        });
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -34,5 +49,9 @@ public class Toolbar extends JPanel implements ActionListener{
                 toolbarListener.pauseEventOccured();
             }
         }
+    }
+
+    public void setToolbarListener(ToolbarListener toolbarListener) {
+        this.toolbarListener = toolbarListener;
     }
 }

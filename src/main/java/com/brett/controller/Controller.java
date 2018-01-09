@@ -1,20 +1,30 @@
 package com.brett.controller;
 
-import com.brett.model.Grid;
+import com.brett.model.*;
 
 public class Controller {
     private Grid grid;
 
+    public Controller(){
+        initDefaultGrid();
+    }
+
+    public void initDefaultGrid(){
+        grid = new Grid(GridExamples.GLIDER_1_CELLS);
+    }
+
     public void setGrid(String s) {
         if (s == "Glider") {
-            System.out.println("Grid should be Glider");
+            this.grid = new Grid(GridExamples.GLIDER_1_CELLS);
+//            System.out.println("Grid should be Glider");
         } else if (s == "Blinker") {
-            System.out.println("Grid should be Blinker");
+            this.grid = new Grid(GridExamples.BLINKER_1_CELLS);
+//            System.out.println("Grid should be Blinker");
         }
 
     }
 
-    public Integer[][] getCells(){
-        return grid.getCells();
+    public Grid getGrid(){
+        return grid;
     }
 }
