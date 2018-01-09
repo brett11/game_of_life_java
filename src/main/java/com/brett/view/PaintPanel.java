@@ -15,6 +15,8 @@ public class PaintPanel extends JPanel implements ActionListener {
     private int rowSize;
     private int colSize;
 
+    private PaintPanelListener paintPanelListener;
+
     public PaintPanel() {
         setBorder(BorderFactory.createLineBorder(Color.BLUE));
     }
@@ -67,9 +69,14 @@ public class PaintPanel extends JPanel implements ActionListener {
         this.cols = grid.getCols();
     }
 
+    public void setPaintPanelListener(PaintPanelListener paintPanelListener) {
+        this.paintPanelListener = paintPanelListener;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         grid.generation();
         this.repaint();
+        paintPanelListener.paintPanelRefreshed(grid.getGenerationCount());
     }
 }

@@ -11,6 +11,9 @@ public class FormPanel extends JPanel {
     private JRadioButton blinkerRadio;
     private ButtonGroup patternGroup;
     private JButton okBtn;
+    private JLabel countLabel;
+    private JLabel countAmountLabel;
+    private int generationCount;
     private FormListener formListener;
 
     public FormPanel() {
@@ -23,6 +26,8 @@ public class FormPanel extends JPanel {
         blinkerRadio = new JRadioButton("Blinker");
         patternGroup = new ButtonGroup();
         okBtn = new JButton("OK");
+        countLabel = new JLabel("Generations:");
+        countAmountLabel = new JLabel("0");
 
         //set up pattern radios
         gliderRadio.setActionCommand("Glider");
@@ -90,5 +95,30 @@ public class FormPanel extends JPanel {
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         gc.insets = new Insets(0, 0, 0, 0);
         add(okBtn, gc);
+
+        ////////////// Next row ///////////////////
+        gc.weightx = 1;
+        gc.weighty = 0.2;
+
+        gc.gridx = 0;
+        gc.gridy+= 2;
+        gc.anchor = GridBagConstraints.FIRST_LINE_END;
+        gc.insets = new Insets(0, 0, 0, 5);
+        add(countLabel, gc);
+
+        ////////////// Next row ///////////////////
+        gc.weightx = 1;
+        gc.weighty = 0.2;
+
+        gc.gridx = 1;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gc.insets = new Insets(0, 0, 0, 0);
+        add(countAmountLabel, gc);
+    }
+
+    public void setData(int generationCount) {
+        this.generationCount = generationCount;
+        countAmountLabel.setText(String.valueOf(generationCount));
+        System.out.println(String.valueOf(generationCount));
     }
 }

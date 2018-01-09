@@ -14,9 +14,12 @@ public class Grid {
     private Integer[][] cells;
 
     private int rows;
-
     private int cols;
+
+    private int generationCount = 0;
+
     // point size is 2 because point of cell is represeneted as a 2 element array { x , y}
+
     private static final int POINT_SIZE = 2;
     private static final int NUMBER_OF_ROWS = 10;
     private static final int NUMBER_OF_COLS = 10;
@@ -197,5 +200,10 @@ public class Grid {
 
     public void generation(){
         flipCells(findCoordsToBeFlipped());
+        generationCount++;
+    }
+
+    public int getGenerationCount() {
+        return generationCount;
     }
 }

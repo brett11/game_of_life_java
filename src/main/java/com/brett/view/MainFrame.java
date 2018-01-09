@@ -24,7 +24,7 @@ public class MainFrame extends JFrame implements ComponentListener {
         paintPanel = new PaintPanel();
 
         controller = new Controller();
-        timer = new Timer(100, paintPanel);
+        timer = new Timer(50, paintPanel);
 
         paintPanel.setData(controller.getGrid());
 
@@ -37,6 +37,7 @@ public class MainFrame extends JFrame implements ComponentListener {
         //https://docs.oracle.com/javase/tutorial/uiswing/events/componentlistener.html
         paintPanel.addComponentListener(this);
 
+        // set correct board before running
         formPanel.setFormListener(new FormListener() {
             public void formEventOccured(String s) {
                 controller.setGrid(s);
@@ -46,7 +47,15 @@ public class MainFrame extends JFrame implements ComponentListener {
                 Dimension currentSize = paintPanel.getSize();
                 currentSize.width += 1;
                 paintPanel.setSize(currentSize);
+
                 paintPanel.repaint();
+            }
+        });
+
+        paintPanel.setPaintPanelListener(new PaintPanelListener() {
+            @Override
+            public void paintPanelRefreshed(int generationCount) {
+                formPanel.setData(controller.getGrid().getGenerationCount());
             }
         });
 
