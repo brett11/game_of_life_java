@@ -1,14 +1,7 @@
 package com.brett.model;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import java.util.stream.Stream;
-
-import static org.apache.commons.lang3.ArrayUtils.toArray;
 
 public class Grid {
     private Integer[][] cells;
@@ -19,28 +12,28 @@ public class Grid {
     private int generationCount = 0;
 
     // point size is 2 because point of cell is represeneted as a 2 element array { x , y}
-
     private static final int POINT_SIZE = 2;
     private static final int NUMBER_OF_ROWS = 10;
     private static final int NUMBER_OF_COLS = 10;
+
     public Grid() {
         this(NUMBER_OF_ROWS, NUMBER_OF_COLS, new Integer[][]{{}});
     }
 
-    public Grid(Integer [][] cells){
+    public Grid(Integer[][] cells) {
         this(cells.length, cells[0].length, cells);
     }
 
-    public Grid(int rows, int cols, Integer [][] cells) {
+    public Grid(int rows, int cols, Integer[][] cells) {
         this.rows = rows;
         this.cols = cols;
         if (multiDimArrayEmpty(cells)) {
             this.cells = createEmptyCells(rows, cols);
         } else {
             Integer[][] newArr = new Integer[cells.length][cells[0].length];
-            for(int i=0; i<cells.length; i++)
-                for(int j=0; j<cells[i].length; j++)
-                    newArr[i][j]=cells[i][j];
+            for (int i = 0; i < cells.length; i++)
+                for (int j = 0; j < cells[i].length; j++)
+                    newArr[i][j] = cells[i][j];
             this.cells = newArr;
         }
     }
@@ -95,7 +88,6 @@ public class Grid {
         return getCellValue(row, col) == 1;
     }
 
-
     private int flip(int x) {
         if (x == 0) {
             return 1;
@@ -114,7 +106,6 @@ public class Grid {
             result[i] = neighborCoord;
         }
         return result;
-
     }
 
     private int[] addCoords(int[] pt1, int[] pt2) {
@@ -182,10 +173,10 @@ public class Grid {
 
     public Integer[][] findCoordsToBeFlipped() {
         List<Integer[]> result = new ArrayList<>();
-        for (int r = 0; r < rows; r++){
+        for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
                 if (shouldFlip(r, c)) {
-                    result.add(new Integer[]{r , c});
+                    result.add(new Integer[]{r, c});
                 }
             }
         }
@@ -198,7 +189,7 @@ public class Grid {
         return resultAry;
     }
 
-    public void generation(){
+    public void generation() {
         flipCells(findCoordsToBeFlipped());
         generationCount++;
     }
