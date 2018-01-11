@@ -16,15 +16,22 @@ public class Controller {
     public void setGrid(String s) {
         if (s == "Glider") {
             this.grid = new Grid(GridExamples.GLIDER_1_CELLS_20x20);
-//            System.out.println("Grid should be Glider");
         } else if (s == "Blinker") {
             this.grid = new Grid(GridExamples.BLINKER_1_CELLS_9x9);
-//            System.out.println("Grid should be Blinker");
+        } else if (s == "Spaceship") {
+            this.grid = new Grid(GridExamples.SPACESHIP_1_CELLS_20x20);
+        } else if (s == "Pentadecatholon") {
+            this.grid = new Grid(GridExamples.PENTADECATHOLON_1_CELLS_20x20);
+        } else if (s == "Pulsar") {
+            this.grid = new Grid(GridExamples.PULSAR_1_CELLS_20x20);
         }
-
     }
 
     public Grid getGrid(){
         return grid;
+    }
+
+    public int getGenerationCount() {
+        return grid.getGenerationCount();
     }
 }

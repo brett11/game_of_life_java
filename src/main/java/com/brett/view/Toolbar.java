@@ -15,7 +15,7 @@ public class Toolbar extends JPanel implements ActionListener{
         runButton = new JButton("Run");
         pauseButton = new JButton("Pause");
 
-        setLayout(new FlowLayout(FlowLayout.LEFT));
+        setLayout(new FlowLayout(FlowLayout.CENTER));
         setBorder(BorderFactory.createEtchedBorder());
 
         add(runButton);

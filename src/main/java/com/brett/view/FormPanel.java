@@ -9,6 +9,9 @@ public class FormPanel extends JPanel {
     private JLabel patternLabel;
     private JRadioButton gliderRadio;
     private JRadioButton blinkerRadio;
+    private JRadioButton spaceshipRadio;
+    private JRadioButton pentaRadio;
+    private JRadioButton pulsarRadio;
     private ButtonGroup patternGroup;
     private JButton okBtn;
     private JLabel countLabel;
@@ -24,6 +27,9 @@ public class FormPanel extends JPanel {
         patternLabel = new JLabel("Select Pattern:");
         gliderRadio = new JRadioButton("Glider");
         blinkerRadio = new JRadioButton("Blinker");
+        spaceshipRadio = new JRadioButton("Spaceship");
+        pentaRadio = new JRadioButton("Pentadecatholon");
+        pulsarRadio = new JRadioButton("Pulsar");
         patternGroup = new ButtonGroup();
         okBtn = new JButton("OK");
         countLabel = new JLabel("Generations:");
@@ -33,8 +39,14 @@ public class FormPanel extends JPanel {
         gliderRadio.setActionCommand("Glider");
         gliderRadio.setSelected(true);
         blinkerRadio.setActionCommand("Blinker");
+        spaceshipRadio.setActionCommand("Spaceship");
+        pentaRadio.setActionCommand("Pentadecatholon");
+        pulsarRadio.setActionCommand("Pulsar");
         patternGroup.add(gliderRadio);
         patternGroup.add(blinkerRadio);
+        patternGroup.add(spaceshipRadio);
+        patternGroup.add(pentaRadio);
+        patternGroup.add(pulsarRadio);
 
         layoutComponents();
 
@@ -70,16 +82,17 @@ public class FormPanel extends JPanel {
         gc.insets = new Insets(0, 0, 0, 5);
         add(patternLabel, gc);
 
-        gc.gridx = 1;
+        gc.gridy++;
+        gc.gridx = 0;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         gc.insets = new Insets(0, 0, 0, 0);
         add(gliderRadio, gc);
 
         ////////////// Next row ///////////////////
         gc.weightx = 1;
-        gc.weighty = 0.2;
+        gc.weighty = 0.05;
 
-        gc.gridx = 1;
+        gc.gridx = 0;
         gc.gridy++;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         gc.insets = new Insets(0, 0, 0, 0);
@@ -87,10 +100,40 @@ public class FormPanel extends JPanel {
 
         ////////////// Next row ///////////////////
         gc.weightx = 1;
+        gc.weighty = 0.05;
+
+        gc.gridx = 0;
+        gc.gridy++;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gc.insets = new Insets(0, 0, 0, 0);
+        add(spaceshipRadio, gc);
+
+        ////////////// Next row ///////////////////
+        gc.weightx = 1;
+        gc.weighty = 0.05;
+
+        gc.gridx = 0;
+        gc.gridy++;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gc.insets = new Insets(0, 0, 0, 0);
+        add(pentaRadio, gc);
+
+        ////////////// Next row ///////////////////
+        gc.weightx = 1;
+        gc.weighty = 0.2;
+
+        gc.gridx = 0;
+        gc.gridy++;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gc.insets = new Insets(0, 0, 0, 0);
+        add(pulsarRadio, gc);
+
+        ////////////// Next row ///////////////////
+        gc.weightx = 1;
         gc.weighty = 2;
 
 
-        gc.gridx = 1;
+        gc.gridx = 0;
         gc.gridy++;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         gc.insets = new Insets(0, 0, 0, 0);
@@ -102,13 +145,9 @@ public class FormPanel extends JPanel {
 
         gc.gridx = 0;
         gc.gridy+= 2;
-        gc.anchor = GridBagConstraints.FIRST_LINE_END;
-        gc.insets = new Insets(0, 0, 0, 5);
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gc.insets = new Insets(0, 0, 0, 0);
         add(countLabel, gc);
-
-        ////////////// Next row ///////////////////
-        gc.weightx = 1;
-        gc.weighty = 0.2;
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -119,6 +158,13 @@ public class FormPanel extends JPanel {
     public void setData(int generationCount) {
         this.generationCount = generationCount;
         countAmountLabel.setText(String.valueOf(generationCount));
-        System.out.println(String.valueOf(generationCount));
+    }
+
+    public void enableOKBtn(){
+        okBtn.setEnabled(true);
+    }
+
+    public void disableOKBtn(){
+        okBtn.setEnabled(false);
     }
 }

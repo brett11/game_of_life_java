@@ -25,7 +25,6 @@ public class PaintPanel extends JPanel implements ActionListener {
         this.currentDimension = dimension;
         this.rowSize = dimension.height / rows;
         this.colSize = dimension.width / cols;
-        System.out.println(this.currentDimension);
     }
 
     public void paintComponent(Graphics graphics) {

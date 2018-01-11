@@ -42,6 +42,7 @@ public class MainFrame extends JFrame implements ComponentListener {
             public void formEventOccured(String s) {
                 controller.setGrid(s);
                 paintPanel.setData(controller.getGrid());
+                formPanel.setData(controller.getGenerationCount());
 
                 //width adjusted by 1 to force resize event so that columns and rows snap
                 Dimension currentSize = paintPanel.getSize();
@@ -55,7 +56,7 @@ public class MainFrame extends JFrame implements ComponentListener {
         paintPanel.setPaintPanelListener(new PaintPanelListener() {
             @Override
             public void paintPanelRefreshed(int generationCount) {
-                formPanel.setData(controller.getGrid().getGenerationCount());
+                formPanel.setData(controller.getGenerationCount());
             }
         });
 
@@ -64,13 +65,13 @@ public class MainFrame extends JFrame implements ComponentListener {
             @Override
             public void runEventOccured() {
                 timer.start();
-                System.out.println("Run button pressed.");
+                formPanel.disableOKBtn();
             }
 
             @Override
             public void pauseEventOccured() {
                 timer.stop();
-                System.out.println("Pause button pressed.");
+                formPanel.enableOKBtn();
             }
         });
 
@@ -84,7 +85,6 @@ public class MainFrame extends JFrame implements ComponentListener {
 
     @Override
     public void componentResized(ComponentEvent e) {
-        System.out.println(e.getComponent().getClass().getName() + " --- resized");
         paintPanel.setCurrentDimension(e.getComponent().getSize());
     }
 
