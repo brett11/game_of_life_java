@@ -1,7 +1,9 @@
 package com.brett.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Grid {
     private Integer[][] cells;
@@ -30,30 +32,22 @@ public class Grid {
         if (multiDimArrayEmpty(cells)) {
             this.cells = createEmptyCells(rows, cols);
         } else {
-            Integer[][] newArr = new Integer[cells.length][cells[0].length];
-            for (int i = 0; i < cells.length; i++)
-                for (int j = 0; j < cells[i].length; j++)
-                    newArr[i][j] = cells[i][j];
-            this.cells = newArr;
+            this.cells = cells;
         }
     }
 
-    public int getRows() {
-        return rows;
-    }
-
-    public int getCols() {
-        return cols;
+    private boolean multiDimArrayEmpty(Integer[][] multiArray) {
+        return (multiArray == null || multiArray.length == 0 || multiArray[0].length == 0);
     }
 
     public Integer[][] createEmptyCells(int rows, int cols) {
-        Integer[][] zeroArray = new Integer[rows][cols];
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                zeroArray[r][c] = 0;
-            }
-        }
-        return zeroArray;
+        Integer[][] cells = IntStream.range(0, rows)
+                .mapToObj(r -> IntStream.range(0, cols)
+                        .map(e -> 0)
+                        .boxed()
+                        .toArray(Integer[]::new))
+                .toArray(Integer[][]::new);
+        return cells;
     }
 
     public void flipCell(int row, int col) {
@@ -72,8 +66,12 @@ public class Grid {
         }
     }
 
-    private boolean multiDimArrayEmpty(Integer[][] multiArray) {
-        return (multiArray == null || multiArray.length == 0 || multiArray[0].length == 0);
+    private int flip(int x) {
+        if (x == 0) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     public Integer[][] getCells() {
@@ -88,27 +86,21 @@ public class Grid {
         return getCellValue(row, col) == 1;
     }
 
-    private int flip(int x) {
-        if (x == 0) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    public int[][] findNeighbors(int row, int col) {
-        int neighborCount = GridHelpers.TRADITIONAL_NEIGHBOR_COORDINATES.length;
-        int[][] result = new int[neighborCount][POINT_SIZE];
-        int[] pt1 = {row, col};
-        for (int i = 0; i < neighborCount; i++) {
-            int[] pt2 = GridHelpers.TRADITIONAL_NEIGHBOR_COORDINATES[i];
-            int[] neighborCoord = addCoords(pt1, pt2);
-            result[i] = neighborCoord;
-        }
+    public Integer[][] findNeighbors(int row, int col) {
+//        int neighborCount = GridHelpers.TRADITIONAL_NEIGHBOR_COORDINATES.length;
+        Integer[] coord = {row, col};
+        Integer[][] result =
+                GridHelpers.TRADITIONAL_NEIGHBOR_COORDINATES.stream()
+                        .map(otherCoord -> addCoords(coord, otherCoord))
+                        .toArray(Integer[][]::new);
         return result;
     }
 
-    private int[] addCoords(int[] pt1, int[] pt2) {
+    private Integer[] addCoords(Integer[] pt1, Integer[] pt2) {
+        // figured out formula using this example of a 3x3 grid. 0,0 as target cell
+        //   2, 2   2, 0   2,1
+        //   0, 2   0, 0   0,1
+        //   1, 2   1, 0   1,1
         int pt1X = pt1[0];
         int pt1Y = pt1[1];
         int pt2X = pt2[0];
@@ -131,31 +123,25 @@ public class Grid {
             newY = rows + intermediatePtY;
         }
 
-        int[] result = {newX, newY};
+        Integer[] result = {newX, newY};
         return result;
     }
 
     public int aliveNeighborCount(int row, int col) {
-        int[][] neighbors = findNeighbors(row, col);
-        int count = 0;
-        for (int[] neighborCoords : neighbors) {
-            int x = neighborCoords[0];
-            int y = neighborCoords[1];
-            if (isAlive(x, y)) {
-                count++;
-            }
-        }
+        Integer[][] neighborCoords = findNeighbors(row, col);
+
+        int count = (int) Arrays.stream(neighborCoords)
+                .filter(coords -> isAlive(coords[0], coords[1]))
+                .count();
         return count;
     }
 
     public boolean shouldFlip(int row, int col) {
         if (isAlive(row, col)) {
             switch (aliveNeighborCount(row, col)) {
-                case 0:
-                case 1: //live cell with fewer than two neighbors dies (gets flipped)
-                    return true;
-                case 2:
-                case 3:
+                case 0: case 1:
+                    return true; //live cell with fewer than two neighbors dies (gets flipped)
+                case 2: case 3:
                     return false; //live cell with 2 or 3 neighbors stays alive
                 default:
                     return true; //overpopulation
@@ -172,21 +158,15 @@ public class Grid {
     }
 
     public Integer[][] findCoordsToBeFlipped() {
-        List<Integer[]> result = new ArrayList<>();
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                if (shouldFlip(r, c)) {
-                    result.add(new Integer[]{r, c});
-                }
-            }
-        }
-        //convert List<Integer[]> to primitive
-        //https://stackoverflow.com/questions/26726366/convert-nested-list-to-2d-array
-        Integer[][] resultAry = result.stream()
-                .map(intAry -> intAry)
-                .toArray(Integer[][]::new);
-
-        return resultAry;
+        Integer[][] result = IntStream.range(0, rows)
+                .mapToObj(r -> IntStream.range(0, cols)
+                        .mapToObj(c -> new Integer[]{r, c})
+                        .filter(e -> shouldFlip(e[0], e[1]))
+                        .toArray(Integer[][]::new)
+                        )
+                .flatMap(Arrays::stream)
+                .toArray(Integer[][]::new); ;
+        return result;
     }
 
     public void generation() {
@@ -196,5 +176,13 @@ public class Grid {
 
     public int getGenerationCount() {
         return generationCount;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
     }
 }

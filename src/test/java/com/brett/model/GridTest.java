@@ -20,12 +20,12 @@ public class GridTest {
     }
 
     @Test
-    public void initializesCellArray() {
+    public void initializesCellsTest() {
         assertThat(grid.getCells(), equalTo(GridExamples.DEFAULT_GRID_CELLS));
     }
 
     @Test
-    public void flipCellsTest() {
+    public void initializesCellsTest2() {
         assertThat(blinker1Grid.getCells(), equalTo(GridExamples.BLINKER_1_CELLS));
     }
 
