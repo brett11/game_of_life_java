@@ -37,7 +37,7 @@ public class GridTest {
                 {6,4}, {6,5}, {6,6}
 
         };
-        assertThat(grid.findNeighbors(5, 5), equalTo(expectedResult));
+        assertThat(grid.findNeighbors(new Integer[]{5, 5}), equalTo(expectedResult));
     }
 
     @Test
@@ -48,35 +48,35 @@ public class GridTest {
                 {1,9}, {1,0}, {1,1}
 
         };
-        assertThat(grid.findNeighbors(0, 0), equalTo(expectedResult));
+        assertThat(grid.findNeighbors(new Integer[]{0,0}), equalTo(expectedResult));
     }
 
     @Test
     public void aliveNeighborCountTest(){
-        assertThat(grid.aliveNeighborCount(2,1), equalTo(0));
+        assertThat(grid.aliveNeighborCount(new Integer[]{2,1}), equalTo(0));
     }
 
     @Test
     public void aliveNeighborCountTest2(){
-        assertThat(blinker1Grid.aliveNeighborCount(2,1), equalTo(3));
+        assertThat(blinker1Grid.aliveNeighborCount(new Integer[]{2,1}), equalTo(3));
     }
 
 
     @Test
     public void aliveNeighborCountTest3(){
-        assertThat(blinker1Grid.aliveNeighborCount(2,2), equalTo(2));
+        assertThat(blinker1Grid.aliveNeighborCount(new Integer[]{2,2}), equalTo(2));
     }
 
     @Test
     public void shouldFlipTest(){
         // alive cell with 2 alive neighbors stays alive
-        assertTrue(blinker1Grid.shouldFlip(2,1));
+        assertTrue(blinker1Grid.shouldFlip(new Integer[]{2,1}));
     }
 
     @Test
     public void shouldFlipTest2(){
         //dead cell with 0 live neighors stays dead
-        assertFalse(blinker1Grid.shouldFlip(0,0));
+        assertFalse(blinker1Grid.shouldFlip(new Integer[]{0,0}));
     }
 
     @Test

@@ -30,7 +30,7 @@ public class Grid {
         this.rows = rows;
         this.cols = cols;
         if (multiDimArrayEmpty(cells)) {
-            this.cells = createEmptyCells(rows, cols);
+            this.cells = createEmptyCells();
         } else {
             this.cells = cells;
         }
@@ -40,19 +40,21 @@ public class Grid {
         return (multiArray == null || multiArray.length == 0 || multiArray[0].length == 0);
     }
 
-    public Integer[][] createEmptyCells(int rows, int cols) {
-        Integer[][] cells = IntStream.range(0, rows)
-                .mapToObj(r -> IntStream.range(0, cols)
-                        .map(e -> 0)
-                        .boxed()
-                        .toArray(Integer[]::new))
-                .toArray(Integer[][]::new);
-        return cells;
+    //this is simpler and easier to read than the stream version
+    public Integer[][] createEmptyCells() {
+        Integer[][] zeroArray = new Integer[rows][cols];
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                zeroArray[r][c] = 0;
+            }
+        }
+        return zeroArray;
     }
 
-    public void flipCell(int row, int col) {
-        int origValue = cells[row][col];
-        cells[row][col] = flip(origValue);
+    public void flipCell(Integer [] coord) {
+        int origValue = getCellValue(coord);
+        int newValue = flip(origValue);
+        setCellValue(coord, newValue);
     }
 
     public void flipCells(Integer[][] positions) {
@@ -60,9 +62,7 @@ public class Grid {
             return;
         }
         for (Integer[] position : positions) {
-            int row = position[0];
-            int col = position[1];
-            flipCell(row, col);
+            flipCell(position);
         }
     }
 
@@ -78,17 +78,24 @@ public class Grid {
         return cells;
     }
 
-    public int getCellValue(int row, int col) {
+    public int getCellValue(Integer[] coord) {
+        int row = coord[0];
+        int col = coord[1];
         return cells[row][col];
     }
 
-    public boolean isAlive(int row, int col) {
-        return getCellValue(row, col) == 1;
+    public void setCellValue(Integer[] coord, Integer newValue) {
+        int row = coord[0];
+        int col = coord[1];
+        cells[row][col] = newValue ;
     }
 
-    public Integer[][] findNeighbors(int row, int col) {
+    public boolean isAlive(Integer[] coord) {
+        return getCellValue(coord) == 1;
+    }
+
+    public Integer[][] findNeighbors(Integer[] coord) {
 //        int neighborCount = GridHelpers.TRADITIONAL_NEIGHBOR_COORDINATES.length;
-        Integer[] coord = {row, col};
         Integer[][] result =
                 GridHelpers.TRADITIONAL_NEIGHBOR_COORDINATES.stream()
                         .map(otherCoord -> addCoords(coord, otherCoord))
@@ -127,18 +134,18 @@ public class Grid {
         return result;
     }
 
-    public int aliveNeighborCount(int row, int col) {
-        Integer[][] neighborCoords = findNeighbors(row, col);
+    public int aliveNeighborCount(Integer[] coord) {
+        Integer[][] neighborCoords = findNeighbors(coord);
 
         int count = (int) Arrays.stream(neighborCoords)
-                .filter(coords -> isAlive(coords[0], coords[1]))
+                .filter(neighborCoord -> isAlive(neighborCoord))
                 .count();
         return count;
     }
 
-    public boolean shouldFlip(int row, int col) {
-        if (isAlive(row, col)) {
-            switch (aliveNeighborCount(row, col)) {
+    public boolean shouldFlip(Integer[] coord) {
+        if (isAlive(coord)) {
+            switch (aliveNeighborCount(coord)) {
                 case 0: case 1:
                     return true; //live cell with fewer than two neighbors dies (gets flipped)
                 case 2: case 3:
@@ -148,7 +155,7 @@ public class Grid {
             }
         } else {
             // dead cell with 3 neighbors becomes alive, otherwise stays dead
-            switch (aliveNeighborCount(row, col)) {
+            switch (aliveNeighborCount(coord)) {
                 case 3:
                     return true;
                 default:
@@ -161,7 +168,7 @@ public class Grid {
         Integer[][] result = IntStream.range(0, rows)
                 .mapToObj(r -> IntStream.range(0, cols)
                         .mapToObj(c -> new Integer[]{r, c})
-                        .filter(e -> shouldFlip(e[0], e[1]))
+                        .filter(e -> shouldFlip(e))
                         .toArray(Integer[][]::new)
                         )
                 .flatMap(Arrays::stream)
@@ -169,6 +176,10 @@ public class Grid {
         return result;
     }
 
+    // flipCells is not a pure function. as such, this is not implemented in a functional approach
+    // functional approach would be too costly since there does not appear to be a good way to
+    // update one cell in a multidimensional array without copying the array. to do this for each cell
+    // while calling reduce to get the new cells array would be too costly
     public void generation() {
         flipCells(findCoordsToBeFlipped());
         generationCount++;

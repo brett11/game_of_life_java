@@ -55,7 +55,7 @@ public class PaintPanel extends JPanel implements ActionListener {
     private void drawBoxes(Graphics graphics){
         for (int rowIndex = 0; rowIndex <rows; rowIndex++) {
             for (int colIndex = 0; colIndex <cols; colIndex++) {
-                if (grid.isAlive(rowIndex, colIndex)) {
+                if (grid.isAlive(new Integer[]{rowIndex, colIndex})) {
                     graphics.fillRect(colIndex * colSize, rowIndex * rowSize, colSize, rowSize);
                 }
             }
